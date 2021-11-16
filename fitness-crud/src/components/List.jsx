@@ -5,16 +5,15 @@ function List({items, setShowModal, setModalItem, confirmDelete}) {
         <div className="main-list">
             <div className="tbl-header">
                 <div className="main-list-item-stats">
-                    <span>Product</span>
-                    <span>Type</span>
-                    <span>Quantity</span>
-                    <span>Price</span>
-                    <span>Total value</span>
-                    <span>In Stock</span>
-                    <span>Last Order</span>
-                    <span>Waranty</span>
-                    <span>For Sale</span>
-                    <span>Description</span>
+                    <span>vardas</span>
+                    <span>pavarde</span>
+                    <span>sportoklubas</span>
+                    <span>kaina</span>
+                    <span>Data</span>
+                    <span>abonentas</span>
+                    <span>Visi klubai</span>
+                    <span>Baseinas</span>
+                    <span>Gerimai</span>
                     <button className="form-button" >Edit</button>
                     <button className="form-button" >Delete</button>
     

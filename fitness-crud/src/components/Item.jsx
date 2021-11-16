@@ -15,22 +15,42 @@ function Item({item, setShowModal, setModalItem, confirmDelete}) {
         }
     }
 
+    const abonentask = (a) => {
+        switch (a) {
+            case '1':
+                return 'vienkartinis'
+        
+                case '2':
+                return '1 men'
+
+                case '3':
+                return '3 men'
+
+                case '4':
+                return '6 men'
+
+                case '5':
+                return '12 men'
+        
+            default:
+        }
+    }
+
     return (
         <div className="main-list-item">
             {/* <i className="fas fa-pencil-alt edit" onClick={showEdit}></i> */}
             {/* <i className="far fa-trash-alt delete" onClick={() => confirmDelete(item.id)}></i> */}
     
             <div className="main-list-item-stats">
-                <span className="main-list-item-name">{item.product}</span>
-                <span><span className="field-names">Type: </span>{item.type}</span>
-                <span><span className="field-names">Quantity: </span>{item.quantity}</span>
-                <span><span className="field-names">Price: </span>{item.price}</span>
-                <span><span className="field-names">Total value: </span>{item.price * item.quantity}</span>
-                <span><span className="field-names">In Stock: </span>{stock(item.instock)}</span>
-                <span><span className="field-names">Last Order: </span>{moment.tz(item.lastorder, "Europe/Vilnius").format('YYYY-MM-DD')}  </span>
-                <span><span className="field-names">Waranty: </span>{item.waranty} yr.</span>
-                <span><span className="field-names">For Sale: </span>{stock(item.forsale)}</span>
-                <span><span className="field-names">Description: </span>{item.description}</span>
+                <span className="main-list-item-name">{item.vardas}</span>
+                <span className="main-list-item-name">{item.pavarde}</span>
+                <span><span className="field-names">sportoklubas: </span>{item.sportoklubas}</span>
+                <span><span className="field-names">kaina: </span>{item.kaina}</span>
+                <span><span className="field-names">Last Order: </span>{moment.tz(item.data, "Europe/Vilnius").format('YYYY-MM-DD')}  </span>
+                <span><span className="field-names">abonentas: </span>{abonentask(item.abonentas)}</span>
+                <span><span className="field-names">Visi klubai: </span>{stock(item.visiklubai)}</span>
+                <span><span className="field-names">Baseinas: </span>{stock(item.baseinas)}</span>
+                <span><span className="field-names">Gerimai: </span>{stock(item.gerimai)}</span>
                 <button className="form-button" onClick={showEdit}>Edit</button>
                 <button className="form-button" onClick={() => confirmDelete(item.id)}>Delete</button>
             </div>

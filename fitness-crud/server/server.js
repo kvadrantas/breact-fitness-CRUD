@@ -26,9 +26,9 @@ import mysql from "mysql";
 
 const con = mysql.createConnection({
     host: "localhost",
-    user: "eshop",
+    user: "fitness",
     password: "Laikinas1",
-    database: "eshop",
+    database: "fitness",
 });
 
 con.connect(function(err) {
@@ -41,9 +41,9 @@ con.connect(function(err) {
 
 
 // GET ALL RECORDS FROM TABLE
-app.get('/stock/', (req, res) => {
+app.get('/fitness/', (req, res) => {
     const sql = `
-        select * from stock
+        select * from fitness
     `
     con.query(sql, (err, results) => {
         if (err) throw err;
@@ -57,33 +57,33 @@ app.get('/stock/', (req, res) => {
 
 
 // INSERT NEW RECORD IN TABLE
-app.post('/stock', (req, res) => {
+app.post('/fitness', (req, res) => {
     const sql = `
-        insert into stock
-        (product, type, quantity, price, instock, lastorder, waranty, forsale, description)
+        insert into fitness
+        (vardas, pavarde, sportoklubas, kaina, data, abonentas, visiklubai, baseinas, gerimai)
         values (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
     if(
-        isValid('txt', 'required', req.body.product) &&
-        isValid('txt', 'required', req.body.type) &&
-        isValid('num', 'required', req.body.quantity) &&
-        isValid('num', 'required', req.body.price) &&
-        isValid('num', 'optional', req.body.instock) &&
-        isValid('txt', 'optional', req.body.lastorder.slice(0, 10)) &&
-        isValid('num', 'optional', req.body.waranty) &&
-        isValid('boolean', 'optional', req.body.forsale) &&
-        isValid('txt', 'optional', req.body.description)
+        isValid('txt', 'required', req.body.vardas) &&
+        isValid('txt', 'required', req.body.pavarde) &&
+        isValid('txt', 'required', req.body.sportoklubas) &&
+        isValid('num', 'required', req.body.kaina) &&
+        isValid('txt', 'optional', req.body.data.slice(0, 10)) &&
+        isValid('txt', 'optional', req.body.abonentas) &&
+        isValid('boolean', 'optional', req.body.visiklubai) &&
+        isValid('boolean', 'optional', req.body.baseinas) &&
+        isValid('boolean', 'optional', req.body.gerimai)
     ) {
         con.query(sql, [
-            req.body.product, 
-            req.body.type, 
-            req.body.quantity, 
-            req.body.price, 
-            req.body.instock||'0', 
-            req.body.lastorder.slice(0, 10)||'0001-01-01', 
-            req.body.waranty, 
-            req.body.forsale, 
-            req.body.description
+            req.body.vardas, 
+            req.body.pavarde, 
+            req.body.sportoklubas, 
+            req.body.kaina, 
+            req.body.data.slice(0, 10)||'0001-01-01', 
+            req.body.abonentas, 
+            req.body.visiklubai, 
+            req.body.baseinas, 
+            req.body.gerimai, 
         ], (err, results) => {
             try {
                 if (err) throw err;
@@ -98,35 +98,35 @@ app.post('/stock', (req, res) => {
 
 
 // EDIT RECORD 
-app.put('/stock/:id', (req, res) => {
-    // console.log(req.body.lastorder);
+app.put('/fitness/:id', (req, res) => {
+    // console.log(req.body.data);
     const sql = `
-        UPDATE stock
-        SET product = ?, type = ?, quantity = ?, price = ?, instock = ?, lastorder = ?, waranty = ?, forsale = ?, description = ?
+        UPDATE fitness
+        SET vardas = ?, pavarde = ?, sportoklubas = ?, kaina = ?, data = ?, abonentas = ?, visiklubai = ?, baseinas = ?, gerimai = ?
         WHERE id = ?
     `;
     if(
-        isValid('txt', 'required', req.body.product) &&
-        isValid('txt', 'required', req.body.type) &&
-        isValid('num', 'required', req.body.quantity) &&
-        isValid('num', 'required', req.body.price) &&
-        isValid('num', 'optional', req.body.instock) &&
-        isValid('txt', 'optional', req.body.lastorder.slice(0, 10)) &&
-        isValid('num', 'optional', req.body.waranty) &&
-        isValid('boolean', 'optional', req.body.forsale) &&
-        isValid('txt', 'optional', req.body.description) &&
+        isValid('txt', 'required', req.body.vardas) &&
+        isValid('txt', 'required', req.body.pavarde) &&
+        isValid('txt', 'required', req.body.sportoklubas) &&
+        isValid('num', 'required', req.body.kaina) &&
+        isValid('txt', 'optional', req.body.data.slice(0, 10)) &&
+        isValid('txt', 'optional', req.body.abonentas) &&
+        isValid('boolean', 'optional', req.body.visiklubai) &&
+        isValid('boolean', 'optional', req.body.baseinas) &&
+        isValid('boolean', 'optional', req.body.gerimai) &&
         isValid('num', 'required', req.params.id)
     ) {
         con.query(sql, [
-            req.body.product,
-            req.body.type,
-            req.body.quantity,
-            req.body.price,
-            req.body.instock,
-            req.body.lastorder.slice(0, 10),
-            req.body.waranty,
-            req.body.forsale,
-            req.body.description,
+            req.body.vardas,
+            req.body.pavarde,
+            req.body.sportoklubas,
+            req.body.kaina,
+            req.body.data.slice(0, 10),
+            req.body.abonentas,
+            req.body.visiklubai,
+            req.body.baseinas,
+            req.body.gerimai,
             req.params.id
         ], (err, results) => {
             try {
@@ -143,9 +143,9 @@ app.put('/stock/:id', (req, res) => {
 
 
 // DELETE RECORD 
-app.delete('/stock/:id', (req, res) => {
+app.delete('/fitness/:id', (req, res) => {
     const sql = `
-        DELETE FROM stock
+        DELETE FROM fitness
         WHERE id = ?
         `;
     con.query(sql, [req.params.id], (err, result) => {
@@ -164,11 +164,11 @@ app.delete('/stock/:id', (req, res) => {
 
 
 
-// FILTER CHECKBOX CONTENT - GET DISTINCT TYPES
-app.get('/stock-types', (req, res) => {
+// FILTER CHECKBOX CONTENT - GET DISTINCT sportoklubasS
+app.get('/fitness-sportoklubas', (req, res) => {
     const sql = `
-        SELECT DISTINCT type
-        FROM stock
+        SELECT DISTINCT sportoklubas
+        FROM fitness
     `;
     con.query(sql, (err, results) => {
         if (err) {
@@ -178,12 +178,25 @@ app.get('/stock-types', (req, res) => {
     })
 })
 
-// FILTER - GET DATA BY TYPE
-app.get('/stock-filter/:t', (req, res) => {
+app.get('/fitness-abonentas', (req, res) => {
+    const sql = `
+        SELECT DISTINCT abonentas
+        FROM fitness
+    `;
+    con.query(sql, (err, results) => {
+        if (err) {
+            throw err;
+        }
+        res.send(results);
+    })
+})
+
+// FILTER - GET DATA BY sportoklubas
+app.get('/fitness-filter/:t', (req, res) => {
     const sql = `
         SELECT *
-        FROM stock
-        WHERE type = ?
+        FROM fitness
+        WHERE sportoklubas = ?
     `;
     con.query(sql, [req.params.t], (err, results) => {
         if (err) {
@@ -193,25 +206,38 @@ app.get('/stock-filter/:t', (req, res) => {
     })
 })
 
+app.get('/abonentas-filter/:t', (req, res) => {
+    const sql = `
+        SELECT *
+        FROM fitness
+        WHERE abonentas = ?
+    `;
+    con.query(sql, [req.params.t], (err, results) => {
+        if (err) {
+            throw err;
+        }
+        res.send(results);
+    })
+})
 
 // SORT1 & FILTER MIX (SORT1)  
-// app.get('/stock-filter/:t', (req, res) => {
-//     // console.log(typeof req.params.t, req.params.t);
+// app.get('/fitness-filter/:t', (req, res) => {
+//     // console.log(sportoklubasof req.params.t, req.params.t);
 //     // console.log(req.params.t === '3');
 //     let sql;
 //     if(req.params.t === 'ASC') {
 //         sql = `
-//         SELECT * FROM stock
-//         order by price ASC
+//         SELECT * FROM fitness
+//         order by kaina ASC
 //     `} else if(req.params.t === 'DESC') {
 //         sql = `
-//         SELECT * FROM stock
-//         order by price DESC
+//         SELECT * FROM fitness
+//         order by kaina DESC
 //     `} else if(req.params.t === '1' || req.params.t === '0') {
 //         sql = `
 //         SELECT *
-//         FROM stock
-//         WHERE instock = ?
+//         FROM fitness
+//         WHERE infitness = ?
 //     `;
 //     }
     
@@ -225,12 +251,12 @@ app.get('/stock-filter/:t', (req, res) => {
 // })
 
 // SEARCH DATA
-app.get('/stock-search', (req, res) => {
+app.get('/fitness-search', (req, res) => {
     const searchText = (`%${req.query.s}%`).toLowerCase();
     const sql = `
         SELECT *
-        FROM stock
-        where LOWER(product) like ? OR LOWER(type) like ? OR LOWER(type) like ? OR LOWER(quantity) like ? OR LOWER(price) like ? OR LOWER(instock) like ? OR LOWER(lastorder) like ? OR LOWER(waranty) like ? OR LOWER(forsale) like ? OR LOWER(description) like ?
+        FROM fitness
+        where LOWER(vardas) like ? OR LOWER(pavarde) like ? OR LOWER(sportoklubas) like ? OR LOWER(kaina) like ? OR LOWER(data) like ? OR LOWER(abonentas) like ? OR LOWER(visiklubai) like ? OR LOWER(baseinas) like ? OR LOWER(gerimai) like ?
     `;
     con.query(sql, [searchText, searchText, searchText, searchText, searchText, searchText, searchText, searchText, searchText, searchText], (err, results) => {
         if (err) {
@@ -243,21 +269,16 @@ app.get('/stock-search', (req, res) => {
 // STATISTICS
 app.get('/statistics', (req, res) => {
     
-    let totalQuantity;
-    let totalValue;
-    let uniqueProducts;
-    let avgPrice;
-    let itmInStock;
-    let itmOutStock;
-    let groupStats;
+    let visoKlientu;
+    let visoPinigu;
+    let groupStats1;
+    let groupStats2;
     
     let sql = `
     SELECT 
-    SUM(quantity) as totalQuantity,
-    sum(quantity*price) as totalValue,
-    COUNT(id) as uniqueProducts
-    FROM stock
-    where instock = '1';
+     count(id) as visoKlientu,
+     sum(kaina) as visoPinigu
+    FROM fitness
     `;
     con.query(sql, (err, results) => {
         if (err) {
@@ -265,69 +286,77 @@ app.get('/statistics', (req, res) => {
         }
         // res.send(results);
          
-            totalQuantity = results[0].totalQuantity;
-            totalValue = results[0].totalValue;
-            uniqueProducts = results[0].uniqueProducts;
+            visoKlientu = results[0].visoKlientu;
+            visoPinigu = results[0].visoPinigu;
     });
 
+    // sql = `
+    // select 
+    // SUM(quantity) as itmInfitness
+    // from fitness
+    // where infitness = '1';
+    // `;
+    // con.query(sql, (err, results) => {
+    //     if (err) {
+    //         throw err;
+    //     }
+    //     // res.send(results);
+    //     itmInfitness = results[0].itmInfitness;
+    // });
+
+    // sql = `
+    // select 
+    // SUM(quantity) as itmOutfitness
+    // from fitness
+    // where infitness = '0';
+    // `;
+    // con.query(sql, (err, results) => {
+    //     if (err) {
+    //         throw err;
+    //     }
+    //     // res.send(results);
+    //      itmOutfitness = results[0].itmOutfitness;
+    // });
+
     sql = `
-    select 
-    SUM(quantity) as itmInStock
-    from stock
-    where instock = '1';
+    select abonentas, count(id) as quantity
+    from fitness
+    group by abonentas
     `;
     con.query(sql, (err, results) => {
         if (err) {
             throw err;
         }
         // res.send(results);
-        itmInStock = results[0].itmInStock;
+        groupStats1 = results;
     });
 
     sql = `
-    select 
-    SUM(quantity) as itmOutStock
-    from stock
-    where instock = '0';
+    select sportoklubas, count(id) as quantity
+    from fitness
+    group by sportoklubas
     `;
     con.query(sql, (err, results) => {
         if (err) {
             throw err;
         }
         // res.send(results);
-         itmOutStock = results[0].itmOutStock;
-    });
-
-    sql = `
-    select type, sum(quantity) as quantity
-    from stock
-    where instock = '1'
-    group by type;
-    `;
-    con.query(sql, (err, results) => {
-        if (err) {
-            throw err;
-        }
-        // res.send(results);
-        groupStats = results;
+        groupStats2 = results;
         res.send({
-            totalQuantity,
-            totalValue,
-            uniqueProducts,
-            avgPrice: totalValue/totalQuantity,
-            itmInStock,
-            itmOutStock,
-            groupStats
+            visoKlientu,
+            visoPinigu,
+            groupStats1,
+            groupStats2
         });
     });
 })
 
 // app.get('/group-statistics', (req, res) => {
 //     const sql = `
-//         SELECT COUNT(id) as count, type
+//         SELECT COUNT(id) as count, sportoklubas
 //         FROM animals
-//         GROUP BY type
-//         ORDER BY COUNT(id) DESC, type
+//         GROUP BY sportoklubas
+//         ORDER BY COUNT(id) DESC, sportoklubas
 //     `;
 //     con.query(sql, (err, results) => {
 //         if (err) {
@@ -344,11 +373,11 @@ app.get('/statistics', (req, res) => {
 //     return data.map((e, i) =>  {
 //         return({
 //             id: i+1,
-//             product: e.product,
+//             vardas: e.vardas,
 //             quantity: e.quantity,
-//             price: e.price,
-//             instock: e.instock,
-//             lastorder: moment.tz(e.lastorder, "Europe/Vilnius").format('YYYY-MM-DD')
+//             kaina: e.kaina,
+//             infitness: e.infitness,
+//             data: moment.tz(e.data, "Europe/Vilnius").format('YYYY-MM-DD')
 //         })
 //     })
 // }

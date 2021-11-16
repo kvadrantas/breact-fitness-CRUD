@@ -24,15 +24,16 @@ function App () {
 // EDIT RECORD MODAL
     const [showModal, setShowModal] = useState(false);
     const [modalItem, setModalItem] = useState({
-        product: '',
-        type: '',
-        quantity: '',
-        price: '',
-        instock: '',
-        lastorder: '',
-        waranty: '',
-        forsale: '',
-        description: ''
+        vardas: '',
+        pavarde: '',
+        sportoklubas: '',
+        kaina: '',
+        infitness: '',
+        data: '',
+        abonentas: '',
+        visiklubai: '',
+        baseinas: '',
+        gerimai: '',
     });
 
 // WARNING MODAL 
@@ -58,11 +59,12 @@ const [error, setError] = useState('');
     const [stats, setStats] = useState({
         totalQuantity: 0,
         totalValue: 0,
-        uniqueProducts: 0,
-        avgPrice: 0,
-        itmInStock: 0,
-        itmOutStock: 0,
-        groupStats: []
+        uniquevardass: 0,
+        avgkaina: 0,
+        itmInfitness: 0,
+        itmOutfitness: 0,
+        groupStats1: [],
+        groupStats2: []
     })
 
     useEffect(() => {
@@ -81,20 +83,30 @@ const [error, setError] = useState('');
     // }, [lastUpdate])
 
     // ----------------- FILTERING -----------------
-    const [types, setTypes] = useState([]);  // filters dropbox options
+    const [sportoklubass, setsportoklubass] = useState([]);  // filters dropbox options
+    const [abonentass, setabonentass] = useState([]);  // filters dropbox options
     const [filterBy, setFilterBy] = useState('');
+    const [filterBy2, setFilterBy2] = useState('');
     
     useEffect(() => {
-        axios.get('http://localhost:3003/stock-types')
+        axios.get('http://localhost:3003/fitness-sportoklubas')
             .then(res => {
-                setTypes(res.data);
+                setsportoklubass(res.data);
+                // console.log(res.data);
+            })
+    }, [lastUpdate])
+
+    useEffect(() => {
+        axios.get('http://localhost:3003/fitness-abonentas')
+            .then(res => {
+                setabonentass(res.data);
                 // console.log(res.data);
             })
     }, [lastUpdate])
 
     useEffect(() => {
         if (filterBy) {
-            axios.get('http://localhost:3003/stock-filter/'+filterBy)
+            axios.get('http://localhost:3003/fitness-filter/'+filterBy)
             .then(res => {
                 setItems(Sort(fixDate(res.data), sortConditions.current));
                 // setItems(fixDate(res.data));
@@ -104,6 +116,17 @@ const [error, setError] = useState('');
         }
     }, [filterBy])
 
+    useEffect(() => {
+        if (filterBy2) {
+            axios.get('http://localhost:3003/abonentas-filter/'+filterBy2)
+            .then(res => {
+                setItems(Sort(fixDate(res.data), sortConditions.current));
+                // setItems(fixDate(res.data));
+                console.log(res.data);
+            })
+            setSearchBy('');
+        }
+    }, [filterBy2])
 
 
     const reset = () => {
@@ -140,13 +163,14 @@ const [error, setError] = useState('');
 
     useEffect(() => {
         if (searchBy) {
-        axios.get('http://localhost:3003/stock-search/?s='+searchBy)
+        axios.get('http://localhost:3003/fitness-search/?s='+searchBy)
             .then(res => {
                 setItems(Sort(fixDate(res.data), sortConditions.current));
                 // setItems(fixDate(res.data));
                 // console.log(res.data);
             })
             setFilterBy('');
+            setFilterBy2('');
         }
     }, [searchBy])
     // ------------------------------------------
@@ -154,7 +178,7 @@ const [error, setError] = useState('');
 
     // ALL RECORDS
     useEffect(() => {
-        axios.get('http://localhost:3003/stock')
+        axios.get('http://localhost:3003/fitness')
         .then(res => {
             setItems(Sort(fixDate(res.data), sortConditions.current));
             // setItems(fixDate(res.data));
@@ -171,7 +195,7 @@ const [error, setError] = useState('');
 
     const create = item => {
         // console.log(item)
-        axios.post('http://localhost:3003/stock', item)
+        axios.post('http://localhost:3003/fitness', item)
         .then(res => {
             // console.log(res.data)
             addMsg('Record successfully added.');
@@ -182,7 +206,7 @@ const [error, setError] = useState('');
     // EDIT RECORD 
     const edit = (item, id) => {
         setShowModal(false);
-        axios.put('http://localhost:3003/stock/' + id, item)
+        axios.put('http://localhost:3003/fitness/' + id, item)
         .then(res => {
             // console.log(res.data);
             addMsg('Record successfully saved.');
@@ -203,7 +227,7 @@ const [error, setError] = useState('');
     const remove = (id) => {
         setShowModal(false);
         // console.log('THATS IT ', id)
-        axios.delete('http://localhost:3003/stock/' + id)
+        axios.delete('http://localhost:3003/fitness/' + id)
         .then(res => {
             // console.log(res.data);
             addMsg('Record successfully removed.');
@@ -223,11 +247,11 @@ const [error, setError] = useState('');
                         <div className="main">
                             <WarningModal showWarningModal={showWarningModal} setShowWarningModal={setShowWarningModal} error={error}/>
                             <ConfirmDelete showDeleteCofirm={showDeleteCofirm} setShowDeleteConfirm={setShowDeleteConfirm} deleteConfirmed={deleteConfirmed} setDeleteConfirmed={setDeleteConfirmed} rcrdMarked={rcrdMarked} remove={remove}/>
-                            <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal} types={types} confirmDelete={confirmDelete} setShowWarningModal={setShowWarningModal} error={error} setError={setError}></Modal>
+                            <Modal edit={edit} remove={remove} modalItem={modalItem} showModal={showModal} setShowModal={setShowModal} sportoklubass={sportoklubass} confirmDelete={confirmDelete} setShowWarningModal={setShowWarningModal} error={error} setError={setError}></Modal>
                             <div className="nav">
-                                <Nav searchBy={searchBy}  setSearchBy={setSearchBy} filterBy={filterBy} setFilterBy={setFilterBy} sortConditions={sortConditions} handleSort={handleSort} types={types} reset={reset}></Nav>
+                                <Nav searchBy={searchBy}  setSearchBy={setSearchBy} filterBy={filterBy} setFilterBy={setFilterBy} filterBy2={filterBy2} setFilterBy2={setFilterBy2} sortConditions={sortConditions} handleSort={handleSort} sportoklubass={sportoklubass} abonentass={abonentass} reset={reset}></Nav>
                                 <Create create={create} handleNewRecord={handleNewRecord} setShowWarningModal={setShowWarningModal} error={error} setError={setError}></Create>
-                                <NewRecord create={create} showNewRecordModal={showNewRecordModal} setShowNewRecordModal={setShowNewRecordModal} setShowWarningModal={setShowWarningModal} types={types} error={error} setError={setError}></NewRecord>
+                                <NewRecord create={create} showNewRecordModal={showNewRecordModal} setShowNewRecordModal={setShowNewRecordModal} setShowWarningModal={setShowWarningModal} sportoklubass={sportoklubass} error={error} setError={setError}></NewRecord>
                             </div>
                             <List items={items} setShowModal={setShowModal} setModalItem={setModalItem} confirmDelete={confirmDelete}></List>
                         </div>

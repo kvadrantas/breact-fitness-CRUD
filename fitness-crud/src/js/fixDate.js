@@ -5,15 +5,15 @@ function fixDate(data) {
     return data.map((e, i) =>  {
         return({
             id: e.id,
-            product: e.product,
-            type: e.type,
-            quantity: e.quantity,
-            price: e.price,
-            instock: e.instock,
-            lastorder: moment.tz(e.lastorder, "Europe/Vilnius").format('YYYY-MM-DD'),
-            waranty: e.waranty,
-            forsale: e.forsale,
-            description: e.description
+            vardas: e.vardas,
+            pavarde: e.pavarde,
+            sportoklubas: e.sportoklubas,
+            kaina: e.kaina,
+            data: moment.tz(e.data, "Europe/Vilnius").format('YYYY-MM-DD'),
+            abonentas: e.abonentas,
+            visiklubai: e.visiklubai,
+            baseinas: e.baseinas,
+            gerimai: e.gerimai,
         })
     })
 }

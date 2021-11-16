@@ -1,14 +1,40 @@
 // import { useState } from "react";
 
-function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditions, handleSort, types}) {
+function Nav({ filterBy, setFilterBy, filterBy2, setFilterBy2, reset, searchBy, setSearchBy, sortConditions, handleSort, sportoklubass, abonentass}) {
 
 // ----------------- FILTER -----------------
 
 
     const selectFilter = e => {
         setFilterBy(e.target.value)
+        setFilterBy2('')
     }
 
+    const selectFilter2 = e => {
+        setFilterBy2(e.target.value)
+        setFilterBy('')
+    }
+
+    const abonentask = (a) => {
+        switch (a) {
+            case '1':
+                return 'vienkartinis'
+        
+                case '2':
+                return '1 men'
+
+                case '3':
+                return '3 men'
+
+                case '4':
+                return '6 men'
+
+                case '5':
+                return '12 men'
+        
+            default:
+        }
+    }
 
 // ----------------- SORT -----------------
     const selectSort = e => {
@@ -32,6 +58,7 @@ function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditio
     const resetHandler = () => {
         reset();
         setFilterBy('');
+        setFilterBy2('');
         setSearchBy('');
         sortConditions.current = '';
         handleSort('');
@@ -45,12 +72,22 @@ function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditio
     <option value="out-stock">Out of stock</option> */}
                     <legend>Filter</legend>
                     <div className="filter">
-                        <label>By type</label><br></br>
+                        <label>Pagal sporto klubą</label><br></br>
                         <select onChange={selectFilter} value={filterBy} >
                             <option value="default" hidden>Select filter...</option>
                             {/* <option value="">Select animal</option> */}
                             {
-                                types.map(t => <option key={t.type} value={t.type}>{t.type}</option>)
+                                sportoklubass.map(t => <option key={t.sportoklubas} value={t.sportoklubas}>{t.sportoklubas}</option>)
+                            }
+                        </select>
+                    </div>
+                    <div className="filter">
+                        <label>Pagal abonentą</label><br></br>
+                        <select onChange={selectFilter2} value={filterBy2} >
+                            <option value="default" hidden>Select filter...</option>
+                            {/* <option value="">Select animal</option> */}
+                            {
+                                abonentass.map(t => <option key={t.abonentas} value={t.abonentas}>{abonentask(t.abonentas)}</option>)
                             }
                         </select>
                     </div>
@@ -58,11 +95,11 @@ function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditio
                 {/* <fieldset>
                     <legend>Filter</legend>
                     <div className="filter">
-                        <label>By type</label><br></br>
+                        <label>By sportoklubas</label><br></br>
                         <select onChange={selectFilter} value={filterBy} >
                             <option value="default"  hidden>Select item...</option>
                             {
-                                types.map(t => <option key={t.type} value={t.type}>{t.type}</option>)
+                                sportoklubass.map(t => <option key={t.sportoklubas} value={t.sportoklubas}>{t.sportoklubas}</option>)
                             }
                         </select>
                     </div>
@@ -73,18 +110,25 @@ function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditio
                         <label>Select sort criteria</label><br></br>
                         <select onChange={selectSort} value={sortConditions.current} >
                             <option value="default"  hidden>Select sorting...</option>
-                            <option value="text-asc,product">Product name &#8593;</option>
-                            <option value="text-desc,product">Product name &#8595;</option>
-                            <option value="text-asc,type">Type &#8593;</option>
-                            <option value="text-desc,type">Type &#8595;</option>
-                            <option value="number-asc,quantity">Quantity &#8593;</option>
-                            <option value="number-desc,quantity">Quantity &#8595;</option>
-                            <option value="number-asc,price">Price &#8593;</option>
-                            <option value="number-desc,price">Price &#8595;</option>
-                            <option value="totalvalue-asc, ">Total value &#8593;</option>
-                            <option value="totalvalue-desc, ">Total value &#8595;</option>
-                            <option value="date-asc,lastorder">Last order &#8593;</option>
-                            <option value="date-desc,lastorder">last order &#8595;</option>
+                            <option value="text-asc,vardas">vardas &#8593;</option>
+                            <option value="text-desc,vardas">vardas &#8595;</option>
+                            <option value="text-asc,pavarde">pavarde &#8593;</option>
+                            <option value="text-desc,pavarde">pavarde &#8595;</option>
+                            <option value="text-asc,sportoklubas">sportoklubas &#8593;</option>
+                            <option value="text-desc,sportoklubas">sportoklubas &#8595;</option>
+                            <option value="number-asc,kaina">kaina &#8593;</option>
+                            <option value="number-desc,kaina">kaina &#8595;</option>
+                            <option value="date-asc,data">Data &#8593;</option>
+                            <option value="date-desc,data">Data &#8595;</option>
+                            <option value="number-asc,abonentas">abonentas &#8593;</option>
+                            <option value="number-desc,abonentas">abonentas &#8595;</option>
+                            <option value="number-asc,visiklubai">Visi klubai &#8593;</option>
+                            <option value="number-desc,visiklubai">Visi klubai &#8595;</option>
+                            <option value="number-asc,baseinas">Baseinas &#8593;</option>
+                            <option value="number-desc,baseinas">Baseinas &#8595;</option>
+                            <option value="number-asc,gerimai">Gerimai &#8593;</option>
+                            <option value="number-desc,gerimai">Gerimai &#8595;</option>
+                            
                         </select>
                     </div>
                     {/* SORT & FILTER MIX (SORT1)- */}
@@ -94,8 +138,8 @@ function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditio
                             <option value="default"  hidden>Select sorting...</option>
                             <option value="in-stock">In Stock</option>
                             <option value="out-stock">Out of stock</option>
-                            <option value="number-asc">Price low to high</option>
-                            <option value="number-desc">Price hight to low</option>
+                            <option value="number-asc">kaina low to high</option>
+                            <option value="number-desc">kaina hight to low</option>
                         </select>
                     </div> */}
                 </fieldset>
@@ -104,7 +148,7 @@ function Nav({ filterBy, setFilterBy, reset, searchBy, setSearchBy, sortConditio
             <fieldset>
                 <legend>Search</legend>
                 <div className="search">
-                    <label>Type search text</label>
+                    <label>sportoklubas search text</label>
                     <input onChange={handleSearchValue} value={searchBy}></input>
                 </div>
             </fieldset>

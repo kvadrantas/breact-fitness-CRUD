@@ -25,7 +25,6 @@ function isValidf(type, req, val, error, setError) {
                 return false;
             }
             else return true;
-            break;
         case 'num':
             if(val) {
                 if(
@@ -38,7 +37,6 @@ function isValidf(type, req, val, error, setError) {
                 }
                 else return true;
             } return true;
-            break;
         case 'boolean':
             if(typeof val === 'boolean' || val === 1 || val === 0) 
             return true;
@@ -47,9 +45,7 @@ function isValidf(type, req, val, error, setError) {
                 setError("Not boolean value");
                 return false;
             }
-            break;
         default:
-            break;
     }
 }
 
